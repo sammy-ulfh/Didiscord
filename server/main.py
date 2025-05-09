@@ -1,0 +1,20 @@
+#!/usr/bin/env python3
+
+from server import Server
+import socket
+
+def main():
+    HOST = socket.gethostbyname(socket.gethostname())
+    PORT = input("\n[+] Ingrese el puerto: ")
+
+    while True:
+        try:
+            PORT = int(PORT)
+            break
+        except:
+            continue
+
+    server = Server(HOST, PORT)
+
+if __name__ == '__main__':
+    main()
