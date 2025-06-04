@@ -16,6 +16,7 @@ class App:
         self.connection = False
         self.button_pressed = None
         self.quit = False
+        self.config_window = None
 
         self.client_app() 
 
@@ -106,6 +107,16 @@ class App:
 
         widgets = [frame, frame_top, title_label, frame_bottom, host_label, host_entry, port_label, port_entry, frame_buttons, save_button, exit_button]
         save_button.configure(command=lambda: self.write_data(app, host_entry, port_entry, widgets))
+
+    def on_close_window(self):
+        self.config_window.destroy()
+        self.config_window = None
+
+    def config(self, app):
+        if not self.config_window:
+            self.config_window = CTkToplevel(app)
+            self.config_window.geometry("1250x600")
+            self.config_window.protocol("WM_DELETE_WINDOW", self.on_close_window)
 
     def client_app(self):
         set_appearance_mode("dark")
@@ -217,6 +228,7 @@ class App:
 
         top_button.configure(command=lambda: user.active_voice(bottom_frame2))
         mic_button.configure(command=lambda: user.mic(mic_button, icon_mic, sound_button, icon_sound))
+        config_button.configure(command=lambda: self.config(app))
 
         # CENTER
         user.FrameCenter.place(relx=0.5, rely=0.5, relwidth=0.70, relheight=1.0, anchor="center")
